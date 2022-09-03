@@ -6,9 +6,9 @@
 </head>
 <body>
 {%if user.is_authenticated%}
-{{user.username}}
+<h2><small>You are logined as:</small> {{user.username}}</h2>
 {%endif%}
-
+<br>
 <a href="{%url 'index'%}">Go to index</a>
 <br>
 <a href="{%url 'sign_in'%}">Sign in</a>
