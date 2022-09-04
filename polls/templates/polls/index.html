@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{%block title%}Title{%endblock%}</title>
 </head>
 <body>
+{% block header%}
 {%if user.is_authenticated%}
 <h2><small>You are logined as:</small> {{user.username}}</h2>
 {%endif%}
@@ -12,5 +13,8 @@
 <a href="{%url 'index'%}">Go to index</a>
 <br>
 <a href="{%url 'sign_in'%}">Sign in</a>
+{%endblock%}
+{% block content %}
+{%endblock%}
 </body>
 </html>

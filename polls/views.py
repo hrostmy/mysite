@@ -25,6 +25,7 @@ def sign_in_view(request):
     form = SignInForm()
     return render(request, 'polls/sign_in.html', {'form': form})
 
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -35,7 +36,11 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             # Save the User object
             new_user.save()
-            return render(request, 'register_done.html', {'new_user': new_user})
+            return render(request, 'polls/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'register.html', {'user_form': user_form})
+    return render(request, 'polls/register.html', {'user_form': user_form})
+
+
+def profile(request, username: str):
+    pass
