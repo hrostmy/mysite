@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import UserRegistrationForm
 from polls.forms import SignInForm
-
 
 def index(request):
     return render(request, 'polls/index.html')
@@ -43,4 +43,8 @@ def register(request):
 
 
 def profile(request, username: str):
-    pass
+    user_profile=User.objects.filter(username=username).first()
+    if user_profile:
+        return render(request,'polls/profile.html',{'user_profile':user_profile})
+    else:
+        return HttpResponse('This user is not created')
