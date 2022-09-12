@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title%}Creating new post{%endblock%}</title>
+</head>
+<body>
+{% block content %}
+<h1> Creating new post </h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type='image' placeholder='Add photo:'><br>
+    <input type='text' placeholder='Add text:'><br>
+    <span>{{ error }}</span>
+    <button type='submit'>Puplicate post</button>
+</form>
+
+{%endblock%}
+</body>
+</html>
