@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+
+from post.models import Post
 from .forms import UserRegistrationForm
 from polls.forms import SignInForm
 
@@ -51,3 +53,8 @@ def profile(request, username: str):
         return render(request, 'polls/profile.html', {'user_profile': user_profile})
     else:
         return HttpResponse('This user is not created')
+
+
+def feed_home(request):
+    feed = Post.objects.all()
+    return render(request, 'polls/index.html',{'feed':feed})
