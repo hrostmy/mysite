@@ -7,15 +7,22 @@
 <body>
 {% block header%}
 {%if user.is_authenticated%}
-<h2><small>You are logined as:</small> {{user.username}}</h2>
+<h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
+<a href="{%url 'index'%}" style="float: right;">Home</a>
+{%else%}
+<br>
+<a href="{%url 'sign_in'%}" style="float: right;">Sign in</a>
 {%endif%}
 <br>
-<a href="{%url 'index'%}">Go to index</a>
-<br>
-<a href="{%url 'sign_in'%}">Sign in</a>
 {%endblock%}
 {% block content %}
-{{ feed }}
+{% for el in feed %}
+    <img src="{{el.photo}}">
+    <h3>{{el.text}}</h3>
+    <h5>{{el.date}}</h5>
+    {{el.author}}
+    <br>
+{%endfor%}
 {%endblock%}
 </body>
 </html>

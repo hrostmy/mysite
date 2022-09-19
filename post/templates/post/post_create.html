@@ -7,13 +7,16 @@
 <body>
 {% block content %}
 <h1> Creating new post </h1>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form }}
-    <input type='image' placeholder='Add photo:'><br>
-    <input type='text' placeholder='Add text:'><br>
-    <span>{{ error }}</span>
+<!--    {{ form.photo }}-->
+<!--    {{ form.text }}-->
+    <input type='file' placeholder='Add photo:' name="photo"><br>
+    <input type='text' placeholder='Add text:' name="text"><br>
     <button type='submit'>Puplicate post</button>
+    {%if error%}
+    {{error}}
+    {%endif%}
 </form>
 
 {%endblock%}

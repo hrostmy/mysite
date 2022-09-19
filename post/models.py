@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.db import models
+
 
 # Create your models here.
 
@@ -6,6 +8,7 @@ class Post(models.Model):
     photo = models.ImageField('Add photo:', blank=True)
     text = models.CharField('Add text:', max_length=1000)
     date = models.DateTimeField('Date', auto_now_add=True, blank=True)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'id: '+str(self.pk)+' date: '+str(self.date)
+        return 'id: ' + str(self.pk) + ' date: ' + str(self.date)

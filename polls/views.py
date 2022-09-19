@@ -57,4 +57,4 @@ def profile(request, username: str):
 
 def feed_home(request):
     feed = Post.objects.all()
-    return render(request, 'polls/index.html',{'feed':feed})
+    return render(request, 'polls/index.html',{'feed':feed[::-1]})
