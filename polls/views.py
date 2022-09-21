@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -58,3 +58,8 @@ def profile(request, username: str):
 def feed_home(request):
     feed = Post.objects.all()
     return render(request, 'polls/index.html',{'feed':feed[::-1]})
+
+def logout_view(request):
+    logout(request)
+    return redirect('sign_in')
+

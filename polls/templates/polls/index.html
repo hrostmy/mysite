@@ -6,22 +6,28 @@
 </head>
 <body>
 {% block header%}
-{%if user.is_authenticated%}
-<h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
-<a href="{%url 'index'%}" style="float: right;">Home</a>
-{%else%}
-<br>
-<a href="{%url 'sign_in'%}" style="float: right;">Sign in</a>
-{%endif%}
-<br>
+    {%if user.is_authenticated%}
+        <h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
+        <a href="{%url 'index'%}" style="float: right;">Home</a>
+        <br>
+        <a href="{%url 'post_create'%}" style="float: right;">Add new post</a>
+        <br>
+        <a href="{%url 'logout'%}" style="float: right;">Log Out</a>
+        {%else%}
+            <br>
+            <a href="{%url 'sign_in'%}" style="float: right;">Sign in</a>
+    {%endif%}
+    <br>
+    <hr>
 {%endblock%}
+
 {% block content %}
 {% for el in feed %}
     <img src="{{el.photo}}">
     <h3>{{el.text}}</h3>
     <h5>{{el.date}}</h5>
     {{el.author}}
-    <br>
+    <hr>
 {%endfor%}
 {%endblock%}
 </body>

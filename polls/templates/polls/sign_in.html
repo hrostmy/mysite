@@ -5,9 +5,15 @@
     <title>Sign in</title>
 </head>
 <body>
-
+<h1>You are not logined, sign in for continue:</h1>
 <form action="{%url 'sign_in'%}" method="POST">
-    {%csrf_token%}{{form}}
+    {%csrf_token%}
+    {{form.username}}
+    <br>
+    <br>
+    {{form.password}}
+    <br>
+    <br>
     <input type="submit">
 </form>
 </body>
