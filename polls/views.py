@@ -2,8 +2,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.views.generic import DetailView
 from django.http import HttpResponse
-
 from post.models import Post
 from .forms import UserRegistrationForm
 from polls.forms import SignInForm
@@ -57,9 +57,28 @@ def profile(request, username: str):
 
 def feed_home(request):
     feed = Post.objects.all()
-    return render(request, 'polls/index.html',{'feed':feed[::-1]})
+    return render(request, 'polls/index.html', {'feed': feed[::-1]})
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post/detail_view.html'
+    context_object_name = 'post_view'
+
+    # def get_object(self, queryset=None):
+    #     obj = super(PostDetailView, self).get_object(queryset)
+    #     if obj:
+    #         return obj
+    #     else:
+    #         return None
+    #
+    # def render_to_response(self, context, **response_kwargs):
+    #     if context.get(self.context_object_name):
+    #         return render(self.request, self.template_name, context)
+    #     else:
+    #         return HttpResponse('HAHHAHAAHHAHA LOOOOOOOOH')
+    #
 
 def logout_view(request):
     logout(request)
     return redirect('sign_in')
-

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{%block title%}Hrostmy`s space{%endblock%}</title>
+    <title>{%block title%}Post view {{post_view.id}}{%endblock%}</title>
 </head>
 <body>
 {% block header%}
@@ -22,15 +22,10 @@
 {%endblock%}
 
 {% block content %}
-{% for el in feed %}
-    <img src="{{el.photo}}">
-    <h3>{{el.text}}</h3>
-    <h5>{{el.date}}</h5>
-    {{el.author}}
-    <br>
-    <a href="{% url 'post_detail' el.id %}">[...]</a>
-    <hr>
-{%endfor%}
+    <img src="{{post_view.photo}}">
+    <h3>{{post_view.text}}</h3>
+    <h5>{{post_view.date}}</h5>
+    {{post_view.author}}
 {%endblock%}
 </body>
 </html>
