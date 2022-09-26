@@ -3,6 +3,9 @@ from django.db import models
 
 
 # Create your models here.
+from django.shortcuts import redirect
+from django.urls import reverse
+
 
 class Post(models.Model):
     photo = models.ImageField('Add photo:', blank=True)
@@ -12,3 +15,6 @@ class Post(models.Model):
 
     def __str__(self):
         return 'id: ' + str(self.pk) + ' date: ' + str(self.date)
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=(self.pk,))

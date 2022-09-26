@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import PostForm
-# Create your views here.
+from django.views.generic import UpdateView
 from .models import Post
 
 
@@ -24,3 +24,10 @@ def create(request):
         data['error'] = error
 
     return render(request, 'post/post_create.html', context=data)
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = 'post/post_update.html'
+
+    form_class = PostForm
