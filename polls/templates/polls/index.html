@@ -28,7 +28,7 @@
     <h5>{{el.date}}</h5>
     {{el.author}}
     <br>
-    <a href="{% url 'post_detail' el.id %}">[...]</a>
+<a href="{% url 'post_detail' el.id %}"><button>More...</button></a>
     <hr>
 {%endfor%}
 {%endblock%}

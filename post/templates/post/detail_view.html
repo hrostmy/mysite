@@ -10,12 +10,12 @@
         <h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
         <a href="{%url 'index'%}" style="float: right;">Home</a>
         <br>
-        <a href="{%url 'post_create'%}" style="float: right;">Add new post</a>
+        <a href="{% url 'post_create' %}" style="float: right;">Add new post</a>
         <br>
-        <a href="{%url 'logout'%}" style="float: right;">Log Out</a>
+        <a href="{% url 'logout' %}" style="float: right;">Log Out</a>
         {%else%}
             <br>
-            <a href="{%url 'sign_in'%}" style="float: right;">Sign in</a>
+            <a href="{% url 'sign_in'% }" style="float: right;">Sign in</a>
     {%endif%}
     <br>
     <hr>
@@ -26,6 +26,9 @@
     <h3>{{post_view.text}}</h3>
     <h5>{{post_view.date}}</h5>
     {{post_view.author}}
+    <br>
+    <a href="{% url 'post_update' pk=post_view.id %}"><button>Change post</button></a>
+    <a href="{% url 'post_delete' pk=post_view.id %}"><button>Delete post</button></a>
 {%endblock%}
 </body>
 </html>
