@@ -27,8 +27,10 @@
     <h5>{{post_view.date}}</h5>
     {{post_view.author}}
     <br>
+    {% if user.pk == post_view.author.pk%}
     <a href="{% url 'post_update' pk=post_view.id %}"><button>Change post</button></a>
     <a href="{% url 'post_delete' pk=post_view.id %}"><button>Delete post</button></a>
+    {%endif%}
 {%endblock%}
 </body>
 </html>

@@ -5,14 +5,27 @@
     <title>{%block title%}Delete post{%endblock%}</title>
 </head>
 <body>
+{% block header%}
+    {%if user.is_authenticated%}
+        <h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
+        <a href="{%url 'index'%}" style="float: right;">Home</a>
+        <br>
+        <a href="{% url 'post_create' %}" style="float: right;">Add new post</a>
+        <br>
+        <a href="{% url 'logout' %}" style="float: right;">Log Out</a>
+        {%else%}
+            <br>
+            <a href="{% url 'sign_in'% }" style="float: right;">Sign in</a>
+    {%endif%}
+    <br>
+    <hr>
+{%endblock%}
 {% block content %}
 <h1> Are you sure that you want to delete this post? </h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-<!--    {{ form.photo }}-->
-<!--    {{ form.text }}-->
     <button type='submit'>Yes, i sure</button>
-    <a href="/"><button>NO, back to home page</button></a>
+<!--    <a href="/"><button>NO, back to home page</button></a>-->
     {%if error%}
     {{error}}
     {%endif%}

@@ -1,4 +1,37 @@
 {% extends "polls/index.html" %}
-{% block title %} {{ user_profile }} {% endblock %}
-{% block content %} {{ user_profile.email }} {% endblock %}
-{% block header %} {% endblock %}
+
+{% block title %}
+    {{ user_profile }}
+{% endblock %}
+
+
+{% block header %}
+{%if user.is_authenticated%}
+        <h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
+        <a href="{%url 'index'%}" style="float: right;">Home</a>
+        <br>
+        <a href="{%url 'post_create'%}" style="float: right;">Add new post</a>
+        <br>
+        <a href="{%url 'logout'%}" style="float: right;">Log Out</a>
+        {%else%}
+            <br>
+            <a href="{%url 'sign_in'%}" style="float: right;">Sign in</a>
+    {%endif%}
+    <br>
+    <hr>
+{% endblock %}
+
+
+{% block content %}
+    <h2>{{ user_profile }}</h2>
+    <br>
+    {% for el in user_posts %}
+    <img src="{{el.photo}}">
+    <h3>{{el.text}}</h3>
+    <h5>{{el.date}}</h5>
+    {{el.author}}
+    <br>
+<a href="{% url 'post_detail' el.id %}"><button>More...</button></a>
+    <hr>
+{%endfor%}
+{% endblock %}

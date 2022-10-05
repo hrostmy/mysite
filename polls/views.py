@@ -49,8 +49,9 @@ def register(request):
 @login_required
 def profile(request, username: str):
     user_profile = User.objects.filter(username=username).first()
+    user_posts = Post.objects.filter(author__username=username)
     if user_profile:
-        return render(request, 'polls/profile.html', {'user_profile': user_profile})
+        return render(request, 'polls/profile.html', {'user_profile': user_profile, 'user_posts': user_posts[::-1]})
     else:
         return HttpResponse('This user is not created')
 
@@ -59,6 +60,10 @@ def feed_home(request):
     feed = Post.objects.all()
     return render(request, 'polls/index.html', {'feed': feed[::-1]})
 
+
+# def profile(request):
+#     user_posts = Post.objects.filter(user=request.user)
+#     return render(request, 'profile.html', {'user_posts': user_posts[::-1]})
 
 class PostDetailView(DetailView):
     model = Post
