@@ -28,6 +28,7 @@
     <h5>{{el.date}}</h5>
     <a href="{%url 'profile' username=el.author %}">{{el.author}}</a>
     <br>
+    <br>
 <a href="{% url 'post_detail' el.id %}"><button>More...</button></a>
     <hr>
 {%endfor%}
