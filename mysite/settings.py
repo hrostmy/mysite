@@ -125,3 +125,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '../sign_in/'
 # LOGOUT_REDIRECT_URL = 'index'
+
+AUTH_USER_MODEL = 'polls.User'

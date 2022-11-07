@@ -23,7 +23,7 @@
 
 
 {% block content %}
-    <h2>{{ user_profile }}</h2>
+    <h2>{{ user_profile.username }}</h2>
     <br>
     {% for el in user_posts %}
     <img src="{{el.photo}}">

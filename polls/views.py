@@ -1,13 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 from django.http import HttpResponse
 from post.models import Post
 from .forms import UserRegistrationForm
 from polls.forms import SignInForm
-
+from .models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 def index(request):
     return render(request, 'polls/index.html')
@@ -19,14 +19,13 @@ def main_page(request):
 
 def sign_in_view(request):
     if request.method == 'POST':
-        form = SignInForm(request.POST)
-        if form.is_valid():
-            user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-            if user:
-                login(request, user)
-                return redirect('index')
+        form = AuthenticationForm(request.POST)
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user:
+            login(request, user)
+            return redirect('index')
 
-    form = SignInForm()
+    form = AuthenticationForm()
     return render(request, 'polls/sign_in.html', {'form': form})
 
 
@@ -40,6 +39,7 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             # Save the User object
             new_user.save()
+            login(request, new_user)
             return render(request, 'polls/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
