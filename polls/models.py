@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     birthday = models.DateField(verbose_name='birthday', null=True, blank=True)
-
+    followers = models.ManyToManyField(to='self', symmetrical=False)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 

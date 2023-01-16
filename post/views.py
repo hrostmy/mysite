@@ -1,7 +1,8 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.views.generic import UpdateView, DeleteView, DetailView
+
+from polls.models import User
 from .forms import PostForm
-from django.views.generic import UpdateView, DeleteView
 from .models import Post
 
 
@@ -35,9 +36,16 @@ class PostUpdateView(UpdateView):
 
     # form_class = PostForm
 
+
 class PostDeleteView(DeleteView):
     model = Post
     template_name = 'post/post_delete.html'
     success_url = '/'
 
     fields = ['photo', 'text']
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post/detail_view.html'
+    context_object_name = 'post_view'
