@@ -9,6 +9,7 @@ from polls.forms import SignInForm
 from .models import User
 from django.contrib.auth.forms import AuthenticationForm
 
+
 def index(request):
     return render(request, 'polls/index.html')
 
@@ -51,7 +52,12 @@ def profile(request, username: str):
     user_profile = User.objects.filter(username=username).first()
     user_posts = Post.objects.filter(author__username=username)
     if user_profile:
-        return render(request, 'polls/profile.html', {'user_profile': user_profile, 'user_posts': user_posts[::-1]})
+        return render(request=request, template_name='polls/profile.html',
+                      context={
+                          'user_profile': user_profile,
+                          'user_posts': user_posts[::-1],
+                          'followed': User.objects.filter(followers__username=user_profile.username).count()
+                      })
     else:
         return HttpResponse('This user is not created')
 
@@ -61,28 +67,17 @@ def feed_home(request):
     return render(request, 'polls/index.html', {'feed': feed[::-1]})
 
 
-# def profile(request):
-#     user_posts = Post.objects.filter(user=request.user)
-#     return render(request, 'profile.html', {'user_posts': user_posts[::-1]})
+@login_required
+def follow(request, pk: int):
+    if request.user.pk == pk:
+        return redirect(to='profile', **{'username': request.user.username})
+    followed = User.objects.get(pk=pk)
+    if request.user not in followed.followers.all():
+        followed.followers.add(request.user)
+    else:
+        followed.followers.remove(request.user)
+    return redirect(to='profile', **{'username': followed.username})
 
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'post/detail_view.html'
-    context_object_name = 'post_view'
-
-    # def get_object(self, queryset=None):
-    #     obj = super(PostDetailView, self).get_object(queryset)
-    #     if obj:
-    #         return obj
-    #     else:
-    #         return None
-    #
-    # def render_to_response(self, context, **response_kwargs):
-    #     if context.get(self.context_object_name):
-    #         return render(self.request, self.template_name, context)
-    #     else:
-    #         return HttpResponse('HAHHAHAAHHAHA LOOOOOOOOH')
-    #
 
 def logout_view(request):
     logout(request)

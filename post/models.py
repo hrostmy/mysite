@@ -1,8 +1,5 @@
-from django.contrib.auth.models import User
 from django.db import models
-
 # Create your models here.
-from django.shortcuts import redirect
 from django.urls import reverse
 
 from polls.models import User
