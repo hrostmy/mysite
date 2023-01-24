@@ -1,13 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.views.generic import DetailView
+from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
+
 from post.models import Post
 from .forms import UserRegistrationForm
-from polls.forms import SignInForm
 from .models import User
-from django.contrib.auth.forms import AuthenticationForm
 
 
 def index(request):
@@ -62,8 +61,11 @@ def profile(request, username: str):
         return HttpResponse('This user is not created')
 
 
-def feed_home(request):
-    feed = Post.objects.all()
+def feed(request, username: str = None):
+    if username:
+        feed = Post.objects.filter(author__in=User.objects.filter(followers__username=username))
+    else:
+        feed = Post.objects.all()
     return render(request, 'polls/index.html', {'feed': feed[::-1]})
 
 
