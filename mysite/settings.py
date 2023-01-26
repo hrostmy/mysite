@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls',
+    'accounts',
     'post',
 ]
 
@@ -126,4 +126,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '../sign_in/'
 # LOGOUT_REDIRECT_URL = 'index'
 
-AUTH_USER_MODEL = 'polls.User'
+AUTH_USER_MODEL = 'accounts.User'

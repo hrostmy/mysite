@@ -1,6 +1,6 @@
 from django.urls import path
 
-import polls.views
+import accounts.views
 from . import views
 
 urlpatterns = [

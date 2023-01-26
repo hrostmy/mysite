@@ -2,7 +2,7 @@ from django.db import models
 # Create your models here.
 from django.urls import reverse
 
-from polls.models import User
+from accounts.models import User
 
 
 class Post(models.Model):
