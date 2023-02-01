@@ -33,8 +33,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    class Meta:
-        db_table="polls_user"
     username = models.CharField(verbose_name='username', max_length=30, unique=True)
     email = models.EmailField(verbose_name='email', max_length=60, unique=True)
     first_name = models.CharField(verbose_name='first name', max_length=30)

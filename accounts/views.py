@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 
 from post.models import Post
 from .forms import UserRegistrationForm
@@ -68,6 +69,12 @@ def feed(request, username: str = None):
         feed = Post.objects.all()
     return render(request, 'accounts/index.html', {'feed': feed[::-1]})
 
+
+class FeedListView(ListView):
+    model = Post
+    paginate_by = 5
+    # queryset = Post.objects.all().order_by('-id')
+    template_name = 'accounts/index.html'
 
 @login_required
 def follow(request, pk: int):
