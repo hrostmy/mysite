@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, DeleteView, DetailView
 
-from polls.models import User
+from accounts.models import User
 from .forms import PostForm
 from .models import Post
 

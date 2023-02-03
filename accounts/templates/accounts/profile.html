@@ -1,0 +1,32 @@
+{% extends "accounts/index.html" %}
+
+{% block title %}
+    {{ user_profile }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ user_profile.username }}</h2>
+    <a href="{%url 'followers' username=user_profile.username%}">followers: {{ user_profile.followers.count }}</a>
+    <a href="{%url 'followed' username=user_profile.username%}">followed: {{ followed }}</a>
+    {% if user_profile.pk != user.pk %}
+        <form method="get" action="{% url 'follow' pk=user_profile.pk %}">
+            {% if user not in user_profile.followers.all %}
+                <button type="submit">Follow</button>
+            {% else %}
+                <button type="submit">Unfollow</button>
+            {% endif %}
+        </form>
+    {% endif %}
+    <br>
+    {% for el in user_posts %}
+        <img src="{{ el.photo }}">
+        <h3>{{ el.text }}</h3>
+        <h5>{{ el.date }}</h5>
+        {{ el.author }}
+        <br>
+        <a href="{% url 'post_detail' el.id %}">
+            <button>More...</button>
+        </a>
+        <hr>
+    {% endfor %}
+{% endblock %}
