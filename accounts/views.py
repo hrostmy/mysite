@@ -57,7 +57,6 @@ class FeedListView(ListView):
         return context
 
 
-
 @login_required
 def follow(request, pk: int):
     if request.user.pk == pk:

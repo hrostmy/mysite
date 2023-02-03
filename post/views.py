@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import UpdateView, DeleteView, DetailView
 
 from accounts.models import User
 from .forms import PostForm
 from .models import Post
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 
 
 def create(request):
@@ -49,3 +51,12 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'post/detail_view.html'
     context_object_name = 'post_view'
+
+
+def like_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.user in post.likes.all():
+        post.likes.add(request.user)
+    else:
+        post.likes.remove(request.user)
+    return redirect(to='post_detail', **{'pk': pk})

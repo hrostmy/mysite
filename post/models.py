@@ -10,7 +10,11 @@ class Post(models.Model):
     text = models.CharField('Add text:', max_length=1000)
     date = models.DateTimeField('Date', auto_now_add=True, blank=True)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    likes = models.ManyToManyField(to=User, related_name='blog_posts')
+    likes = models.ManyToManyField(to=User, related_name='posts_likes', symmetrical=False)
+
+    @property
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return 'id: ' + str(self.pk) + ' date: ' + str(self.date)

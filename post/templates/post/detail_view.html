@@ -5,32 +5,43 @@
     <title>{%block title%}Post view {{post_view.id}}{%endblock%}</title>
 </head>
 <body>
-{% block header%}
-    {%if user.is_authenticated%}
-        <h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
-        <a href="{%url 'index'%}" style="float: right;">Home</a>
-        <br>
-        <a href="{% url 'post_create' %}" style="float: right;">Add new post</a>
-        <br>
-        <a href="{% url 'logout' %}" style="float: right;">Log Out</a>
+    {% block header%}
+        {%if user.is_authenticated%}
+            <h4 align="right"><small>You are logined as:</small> {{user.username}}</h4>
+            <a href="{%url 'index'%}" style="float: right;">Home</a>
+            <br>
+            <a href="{% url 'post_create' %}" style="float: right;">Add new post</a>
+            <br>
+            <a href="{% url 'logout' %}" style="float: right;">Log Out</a>
         {%else%}
             <br>
             <a href="{% url 'sign_in'% }" style="float: right;">Sign in</a>
-    {%endif%}
-    <br>
-    <hr>
-{%endblock%}
+        {%endif%}
+        <br>
+        <hr>
+    {%endblock%}
 
-{% block content %}
+    {% block content %}
     <img src="{{post_view.photo}}">
     <h3>{{post_view.text}}</h3>
     <h5>{{post_view.date}}</h5>
     {{post_view.author}}
+    <br/><br/>
+    <hr>
+    <form action="{% url 'post_like' post_view.pk %}" method="POST">
+        {%csrf_token%}
+            <h3>Likes:{{ post_view.total_likes }} </h3>
+        {% if user not in post_view.likes.all %}
+            <button type="submit" name="post_id" value="{{ post_view.pk }}">Like</button>
+        {% else %}
+            <button type="submit" name="post_id" value="{{ post_view.pk }}">Unlike</button>
+        {% endif %}
+    </form>
     <br>
-    {% if user.pk == post_view.author.pk%}
-    <a href="{% url 'post_update' pk=post_view.id %}"><button>Change post</button></a>
-    <a href="{% url 'post_delete' pk=post_view.id %}"><button>Delete post</button></a>
-    {%endif%}
-{%endblock%}
+        {% if user.pk == post_view.author.pk%}
+            <a href="{% url 'post_update' pk=post_view.id %}"><button>Change post</button></a>
+            <a href="{% url 'post_delete' pk=post_view.id %}"><button>Delete post</button></a>
+        {%endif%}
+    {%endblock%}
 </body>
 </html>
