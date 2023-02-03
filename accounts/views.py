@@ -10,26 +10,6 @@ from .forms import UserRegistrationForm
 from .models import User
 
 
-def index(request):
-    return render(request, 'accounts/index.html')
-
-
-def main_page(request):
-    return HttpResponse('<h1>Головна сторінка</h1>')
-
-
-def sign_in_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        if user:
-            login(request, user)
-            return redirect('index')
-
-    form = AuthenticationForm()
-    return render(request, 'accounts/sign_in.html', {'form': form})
-
-
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -62,19 +42,21 @@ def profile(request, username: str):
         return HttpResponse('This user is not created')
 
 
-def feed(request, username: str = None):
-    if username:
-        feed = Post.objects.filter(author__in=User.objects.filter(followers__username=username)).order_by('id')
-    else:
-        feed = Post.objects.all()
-    return render(request, 'accounts/index.html', {'feed': feed[::-1]})
-
-
 class FeedListView(ListView):
     model = Post
     paginate_by = 5
-    # queryset = Post.objects.all().order_by('-id')
+    queryset = Post.objects.all().order_by('-id')
     template_name = 'accounts/index.html'
+
+    def get_context_data(self, *, object_list=queryset, **kwargs):
+        if username := self.kwargs.get('username'):
+            if user := User.objects.filter(username=username).first():
+                object_list = self.queryset.filter(author__in=user.followed)
+        context = super().get_context_data(object_list=object_list, **kwargs)
+
+        return context
+
+
 
 @login_required
 def follow(request, pk: int):
@@ -88,15 +70,10 @@ def follow(request, pk: int):
     return redirect(to='profile', **{'username': followed.username})
 
 
-def logout_view(request):
-    logout(request)
-    return redirect('sign_in')
-
-
 def followers_and_followed(request, username: str):
-    if request.path.find('followers')!=-1:
+    if request.path.find('followers') != -1:
         return render(request, 'accounts/followers_and_followed.html',
                       {'users': User.objects.filter(username=username).first().followers.all(), 'title': 'Followers'})
-    elif request.path.find('followed')!=-1:
+    elif request.path.find('followed') != -1:
         return render(request, 'accounts/followers_and_followed.html',
-               {'users': User.objects.filter(followers__username=username), 'title': 'Followed'})
+                      {'users': User.objects.filter(followers__username=username), 'title': 'Followed'})

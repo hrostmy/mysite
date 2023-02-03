@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import models
+
 
 
 class UserManager(BaseUserManager):
@@ -59,4 +60,8 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+    @property
+    def followed(self):
+        return User.objects.filter(followers__username=self.username)
 # Create your models here.
