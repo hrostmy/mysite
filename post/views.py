@@ -55,7 +55,7 @@ class PostDetailView(DetailView):
 
 def like_view(request, pk):
     post = get_object_or_404(Post, id=pk)
-    if request.user in post.likes.all():
+    if request.user not in post.likes.all():
         post.likes.add(request.user)
     else:
         post.likes.remove(request.user)

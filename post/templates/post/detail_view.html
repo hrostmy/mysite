@@ -15,7 +15,7 @@
             <a href="{% url 'logout' %}" style="float: right;">Log Out</a>
         {%else%}
             <br>
-            <a href="{% url 'sign_in'% }" style="float: right;">Sign in</a>
+            <a href="{% url 'sign_in' %}" style="float: right;">Sign in</a>
         {%endif%}
         <br>
         <hr>
@@ -25,7 +25,7 @@
     <img src="{{post_view.photo}}">
     <h3>{{post_view.text}}</h3>
     <h5>{{post_view.date}}</h5>
-    {{post_view.author}}
+    <a href="{% url 'profile' username=post_view.author.username %}">{{post_view.author.username}}</a>
     <br/><br/>
     <hr>
     <form action="{% url 'post_like' post_view.pk %}" method="POST">
