@@ -60,3 +60,9 @@ def like_view(request, pk):
     else:
         post.likes.remove(request.user)
     return redirect(to='post_detail', **{'pk': pk})
+
+
+def likes(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    return render(request, 'post/likes.html',
+                  {'likes': User.objects.filter(pk__in=post.likes.all())})

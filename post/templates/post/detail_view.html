@@ -28,9 +28,9 @@
     <a href="{% url 'profile' username=post_view.author.username %}">{{post_view.author.username}}</a>
     <br/><br/>
     <hr>
+    <a href="{% url 'likes' pk=post_view.pk %}">Likes:{{ post_view.total_likes }}</a>
     <form action="{% url 'post_like' post_view.pk %}" method="POST">
         {%csrf_token%}
-            <h3>Likes:{{ post_view.total_likes }} </h3>
         {% if user not in post_view.likes.all %}
             <button type="submit" name="post_id" value="{{ post_view.pk }}">Like</button>
         {% else %}

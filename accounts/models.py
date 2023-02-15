@@ -64,4 +64,3 @@ class User(AbstractBaseUser):
     @property
     def followed(self):
         return User.objects.filter(followers__username=self.username)
-# Create your models here.
