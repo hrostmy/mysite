@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{%block title%}Hrostmy`s space{%endblock%}</title>
 </head>
-<body>
+<body style="background-color:#dbe1e6">
 {% block header%}
     {%if user.is_authenticated%}
         <h4 align="right"><small>You are logined as:</small> <a href="{%url 'profile' username=user.username %}">{{user.username}}</a></h4>
@@ -24,34 +24,35 @@
 {%endblock%}
 
 {% block content %}
-{% for el in object_list %}
-    <img src="{{el.photo}}">
-    <h3>{{el.text}}</h3>
-    <h5>{{el.date}}</h5>
-    <a href="{%url 'profile' username=el.author.username %}">{{el.author.username}}</a>
-    <br>
-    <br>
-<a href="{% url 'post_detail' el.id %}"><button>More...</button></a>
-    <hr>
-{% empty %}
-    <li>No articles yet.</li>
-{%endfor%}
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{page_obj.previous_page_number}}">previous</a>
-        {% endif %}
+    {% for el in object_list %}
+        <a href="{%url 'post_detail' el.id%}">
+            <div class="container text-center" style="text-align: center; border-style:solid; color:#708FAE">
+                <img src="{{el.photo}}">
+                <a href="{%url 'post_detail' el.id%}" style="color: black; text-decoration: none"><h2>{{el.text}}</h2></a>
+                <h5 style="color:#4B4C4C">{{el.date}}</h5>
+                <a href="{%url 'profile' username=el.author.username %}" style="color: 0D397B">{{el.author.username}}</a>
+            </div>
+        </a>
+        <br>
+        {% empty %}
+            <li>No articles yet.</li>
+    {%endfor%}
+    <div class="pagination" style="text-align: center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{page_obj.previous_page_number}}">previous</a>
+            {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}">next</a>
+            <a href="?page={{page_obj.paginator.num_pages}}">last &raquo;</a>
+            {% endif %}
         </span>
-        {% if page_obj.has_next %}
-        <a href="?page={{page_obj.next_page_number}}">next</a>
-        <a href="?page={{page_obj.paginator.num_pages}}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+    </div>
 {%endblock%}
 </body>
 </html>

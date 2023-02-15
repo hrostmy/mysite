@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import UpdateView, DeleteView, DetailView
 
 from accounts.models import User
@@ -34,8 +34,6 @@ class PostUpdateView(UpdateView):
 
     fields = ['photo', 'text']
 
-    # form_class = PostForm
-
 
 class PostDeleteView(DeleteView):
     model = Post
@@ -49,3 +47,18 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'post/detail_view.html'
     context_object_name = 'post_view'
+
+
+def like_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.user not in post.likes.all():
+        post.likes.add(request.user)
+    else:
+        post.likes.remove(request.user)
+    return redirect(to='post_detail', **{'pk': pk})
+
+
+def likes(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    return render(request, 'post/likes.html',
+                  {'likes': User.objects.filter(pk__in=post.likes.all())})

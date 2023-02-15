@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 
-
 class UserManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         if not email:
@@ -64,4 +63,3 @@ class User(AbstractBaseUser):
     @property
     def followed(self):
         return User.objects.filter(followers__username=self.username)
-# Create your models here.

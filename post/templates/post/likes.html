@@ -1,0 +1,16 @@
+{% extends "accounts/index.html" %}
+
+{% block title %}
+    <title>Likes</title>
+{% endblock %}
+
+{% block content %}
+    {% if likes %}
+        {% for obj in likes %}
+            <a href="{%url 'profile' username=obj.username %}">{{obj.username}}</a>
+            <br>
+        {% endfor %}
+    {% else %}
+        <h3>No likes yet :(</h3>
+    {% endif %}
+{% endblock %}

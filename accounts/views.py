@@ -1,6 +1,5 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
@@ -55,7 +54,6 @@ class FeedListView(ListView):
         context = super().get_context_data(object_list=object_list, **kwargs)
 
         return context
-
 
 
 @login_required
