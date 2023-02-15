@@ -4,8 +4,6 @@ from django.views.generic import UpdateView, DeleteView, DetailView
 from accounts.models import User
 from .forms import PostForm
 from .models import Post
-from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect
 
 
 def create(request):
@@ -35,8 +33,6 @@ class PostUpdateView(UpdateView):
     template_name = 'post/post_update.html'
 
     fields = ['photo', 'text']
-
-    # form_class = PostForm
 
 
 class PostDeleteView(DeleteView):

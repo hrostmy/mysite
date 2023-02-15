@@ -1,5 +1,4 @@
 from django.db import models
-# Create your models here.
 from django.urls import reverse
 
 from accounts.models import User
@@ -15,7 +14,6 @@ class Post(models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
-
 
     def __str__(self):
         return 'id: ' + str(self.pk) + ' date: ' + str(self.date)
